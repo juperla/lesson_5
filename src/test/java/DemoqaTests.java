@@ -45,48 +45,59 @@ public class DemoqaTests {
         String lastName = "Super";
         String userEmail = "email@yahoo.com";
         String userNumber = "9139111111";
-      //  String dateOfBirthInput = "14 Mar 2022";
-        String subjectsContainer = "Culture";
-        String currentAddress = "Russia";
-        String elementDropdown = null;
+        String subjectsInput = "C";
+        String currentAddress = "USA";
 
-        driver.findElement(By.xpath("//*[@id=\"firstName\"]")).click();
+        driver.findElement(By.xpath("//*[@id='firstName']")).click();
         driver.findElement(By.id("firstName")).sendKeys(firstName);
-        driver.findElement(By.xpath("//*[@id=\"lastName\"]")).click();
+        driver.findElement(By.xpath("//*[@id='lastName']")).click();
         driver.findElement(By.id("lastName")).sendKeys(lastName);
-        driver.findElement(By.xpath("//*[@id=\"userEmail\"]")).click();
+        driver.findElement(By.xpath("//*[@id='userEmail']")).click();
         driver.findElement(By.id("userEmail")).sendKeys(userEmail);
 
-        WebElement testingRadioButton = driver.findElement(By.xpath("//label[text()='Female']"));
-        WebElement programmingRadioButton = driver.findElement(By.xpath("//label[text()='Female']"));
+        WebElement testingRadioButton = driver.findElement(By.xpath("//*[text()='Female']"));
         testingRadioButton.click();
 
-        driver.findElement(By.xpath("//*[@id=\"userNumber\"]")).click();
+        driver.findElement(By.xpath("//*[@id='userNumber']")).click();
         driver.findElement(By.id("userNumber")).sendKeys(userNumber);
 
-     //   driver.findElement(By.xpath("//*[@id=\"dateOfBirthInput\"]")).click();
-     //   driver.findElement(By.xpath("//*[@id=\"dateOfBirthInput\"]")).clear();
-     //   driver.findElement(By.id("dateOfBirthInput")).sendKeys(dateOfBirthInput);
+        driver.findElement(By.xpath("//*[@id='dateOfBirthInput']")).click();
 
-        driver.findElement(By.xpath("//*[@id=\"subjectsContainer\"]")).click();
-        driver.findElement(By.id("subjectsContainer")).sendKeys(subjectsContainer);
-
-        WebElement testingCheckBox = driver.findElement(By.xpath("//label[text()='Reading']"));
-        WebElement readingCheckBox = driver.findElement(By.xpath("//label[text()='Reading']"));
-        testingCheckBox.click();
-
-       driver.findElement(By.xpath("//*[@id=\"uploadPicture\"]")).click();
-      // driver.findElement(By.id("uploadPicture")).;
-
-        driver.findElement(By.xpath("//*[@id=\"currentAddress\"]")).click();
-        driver.findElement(By.id("currentAddress")).sendKeys(currentAddress);
-
-        driver.findElement(By.xpath("//*[@id=\"state\"]")).click();
+        WebElement elementDropdown = driver.findElement(By.xpath("//*[@id='dateOfBirth']/div[2]/div[2]/div/div/div[2]/div[1]/div[2]/div[1]/select"));
         Select select = new Select(elementDropdown);
         select.selectByIndex(3);
 
-        driver.findElement(By.xpath("//*[@id=\"city\"]")).click();
-        select.selectByIndex(1);
+        WebElement elementDropdown1 = driver.findElement(By.xpath("//*[@id='dateOfBirth']/div[2]/div[2]/div/div/div[2]/div[1]/div[2]/div[2]/select"));
+        Select select1 = new Select(elementDropdown1);
+        select1.selectByIndex(1983);
+
+        driver.findElement(By.xpath("//*[@id='dateOfBirth']/div[2]/div[2]/div/div/div[2]/div[2]/div[3]/div[5]")).click();
+
+
+      driver.findElement(By.xpath("//*[@id='subjectsInput']")).click();
+      driver.findElement(By.id("subjectsInput")).sendKeys(subjectsInput);
+      WebElement selectElement = driver.findElement(By.id("subjectsInput"));
+        Select select2 = new Select(selectElement);
+        select2.selectByVisibleText("Chemistry");
+
+        WebElement checkBox = driver.findElement(By.xpath("//*[@id='hobbiesWrapper']/div[2]/div[2]/label"));
+        checkBox.click();
+
+        file = new File("src/image.png.jpg");
+        WebElement selectPictureButton = driver.findElement(By.id("uploadPicture"));
+        selectPictureButton.sendKeys(file.getAbsolutePath());
+
+        driver.findElement(By.xpath("//*[@id='currentAddress']")).click();
+        driver.findElement(By.id("currentAddress")).sendKeys(currentAddress);
+
+        WebElement selectElement1 = driver.findElement(By.xpath("//*[@id='state']"));
+        Select select1 = new Select(selectElement1);
+        select1.selectByVisibleText("Haryana");
+
+        WebElement selectElement2 = driver.findElement(By.xpath("//*[@id='city']"));
+        Select select2 = new Select(selectElement2);
+        select2.selectByVisibleText("Karnal");
+
 
       //  Assertions.assertEquals("Haryana", allOption.get(3).getText());
 
