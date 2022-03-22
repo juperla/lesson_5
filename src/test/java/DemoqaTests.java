@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.w3c.dom.html.HTMLInputElement;
 
 import java.io.File;
 import java.util.List;
@@ -82,44 +84,38 @@ public class DemoqaTests {
         WebElement selectPictureButton = driver.findElement(By.id("uploadPicture"));
         selectPictureButton.sendKeys(file.getAbsolutePath());
 
-        WebElement subjectsAutocomplete1 = driver.findElement(By.id("currentAddress"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", subjectsAutocomplete);
-        subjectsAutocomplete1.sendKeys("Russia, Novosibirsk");
-        subjectsAutocomplete1.sendKeys(Keys.ESCAPE);
+        driver.findElement(By.id("currentAddress")).sendKeys("Russia, Novosibirsk");
 
-        // driver.findElement(By.id("currentAddress")).sendKeys("Russia");
+        driver.findElement(By.id("state")).click();
+        driver.switchTo().activeElement().sendKeys("NCR");
+        driver.switchTo().activeElement().sendKeys(Keys.ENTER);
 
-        WebElement selectElement3 = driver.findElement(By.xpath("//*[@id='state']"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectElement3);
-        Select select3 = new Select(selectElement3);
-        select3.selectByIndex(3);
-
-        WebElement selectElement4 = driver.findElement(By.id("city"));
-        Select select4 = new Select(selectElement4);
-        select4.selectByVisibleText("Karnal");
-
-        driver.findElement(By.id("submit")).click();
+        driver.findElement(By.id("city")).click();
+        driver.switchTo().activeElement().sendKeys("Delhi");
+        driver.switchTo().activeElement().sendKeys(Keys.ENTER);
 
 
-        //  Assertions.assertEquals("Haryana", allOption.get(3).getText());
+        WebElement button = driver.findElement(By.id("submit"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
+        Thread.sleep(3000);
 
+        SoftAssertions softAssert = new SoftAssertions();
+        softAssert.assertThat(driver.findElement(By.id("example-modal-sizes-title-lg")).getText()).isEqualTo("Thanks for submitting the form");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='Юлия Super']")).getText()).isEqualTo("Юлия Super");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='email@yahoo.com']")).getText()).isEqualTo("email@yahoo.com");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='Female']")).getText()).isEqualTo("Female");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='9139111111']")).getText()).isEqualTo("9139111111");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='17 March 1983']")).getText()).isEqualTo("17 March 1983");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='Chemistry']")).getText()).isEqualTo("Chemistry");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='Reading']")).getText()).isEqualTo("Reading");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='src/image.png.jpg']")).getText()).isEqualTo("src/image.png.jpg");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='Russia, Novosibirsk']")).getText()).isEqualTo("Russia, Novosibirsk");
+        softAssert.assertThat(driver.findElement(By.xpath("//td[text()='NCR Delhi']")).getText()).isEqualTo("NCR Delhi");
 
-        // WebElement succecfullLoginMessageLabel = driver.findElement(By.id("flash"));
-        //  String succecfullLoginMessage = succecfullLoginMessageLabel.getText();
-
-        //  Thread.sleep(3000);
-        // Assertions.assertTrue(succecfullLoginMessageLabel.isDisplayed());
-        // Assertions.assertTrue(succecfullLoginMessage.contains("You logged into a secure area!"));
-        //   Assertions.assertEquals("true", testingRadioButton.getAttribute("checked"));
-        //   Assertions.assertFalse(programmingRadioButton.isSelected());
-
-        //  driver.findElement(By.id("flash")).isDisplayed();
-
+        softAssert.assertAll();
     }
 
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
+      @AfterEach
+      public void tearDown() {driver.quit();}
 
 }
